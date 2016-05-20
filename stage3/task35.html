@@ -1,0 +1,376 @@
+<!doctype html>
+<html>
+  <head>
+    <title>听指令的小方块  by huansky</title>
+    <meta charset="utf-8"/>
+    <style type="text/css">
+    h1 {
+      font:400 16px/1 "Microsoft YaHei",KaiTi_GB2312,SimSun;
+      text-align: center;
+    }
+    #main{
+      position: absolute;
+      top: 20px;
+      left: 50px;
+      width: 450;
+      border: 1px solid #ddd;
+    }
+    .introduction{
+      position: absolute;
+      top: 20px;
+      right: 50px;
+      font-size: 14px;
+    }
+    #container{
+      position: relative;
+      border: 1px solid #ddd;
+      width: 300px;
+      height: 300px;
+    }
+    span{
+      width: 30px;
+      height: 30px;
+      border: 1px solid #ddd;
+      float: left;
+      -moz-box-sizing: border-box;  /*Firefox3.5+*/
+      -webkit-box-sizing: border-box; /*Safari3.2+*/
+      -o-box-sizing: border-box; /*Opera9.6*/
+      -ms-box-sizing: border-box; /*IE8*/
+      box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/
+    }
+    #box{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      -moz-box-sizing: border-box;  /*Firefox3.5+*/
+      -webkit-box-sizing: border-box; /*Safari3.2+*/
+      -o-box-sizing: border-box; /*Opera9.6*/
+      -ms-box-sizing: border-box; /*IE8*/
+      box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/ 
+    }
+    #box .up{
+      background: blue;
+      height: 6px;
+      width: 100%;
+      position: relative;
+      border: none;
+    }
+    #box .down{
+      background: red;
+      height: 24px;
+      width: 100%;
+      position: relative;
+      border: none;
+    }
+    p{
+      color: red;
+      text-align: center;
+      margin: 2px;
+    }
+    input{
+      margin: 4px;
+    }
+    textarea{
+      margin-top: 4px;
+      padding: 0px;
+      background: black;
+      color: green;
+      float: left;
+      margin: 4px;
+      line-height: 16px;
+      font-size: 12px;
+      padding-top: 2px;
+    }
+    .hanghao{
+      float:left;
+      height: 113px;
+      background: #ccc;
+      width: 20px;
+      margin: 4px;
+      padding: 3px;
+      -moz-box-sizing: border-box;  /*Firefox3.5+*/
+      -webkit-box-sizing: border-box; /*Safari3.2+*/
+      -o-box-sizing: border-box; /*Opera9.6*/
+      -ms-box-sizing: border-box; /*IE8*/
+      box-sizing: border-box; /*W3C标准(IE9+，Safari5.1+,Chrome10.0+,Opera10.6+都符合box-sizing的w3c标准语法)*/ 
+      overflow: hidden;
+    }
+    #hanghao p{
+      margin: 0px;
+      padding: 0px;
+      line-height: 16px;
+      font-size: 12px;
+      color: black;
+    }
+    .change{
+      background: red;
+      border-radius: 7px;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <h1>听指令的小方块 by huansky</h1>
+    <p id="message"></p>
+    <div id="container">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <div id="box"><span class="up"></span><span class="down"></span></div>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+
+    <div id="btndir"><input type="button" id="excute" value="执行">
+      <input id="refresh" type="button" value="refresh">
+    </div>
+    <div>
+      <div class="hanghao"  id="hanghao"></div><textarea type="text" id="invalue" rows="7"></textarea>
+    </div>
+    
+  </div>
+
+  <div class="introduction">
+      <ol>
+        <li>在输入框中允许输入如下指令，按下按钮后，使得正方形做相应动作</li>
+        <li>移动不能超出格子空间</li>
+        <li>GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长</li>
+        <li>TUN LEF：向左转（逆时针旋转90度）</li>
+        <li>TUN RIG：向右转（顺时针旋转90度）</li>
+        <li>TUN BAC：向右转（旋转180度）</li>
+        <li>TRA LEF：向屏幕的左侧移动一格，方向不变</li>
+        <li>TRA TOP：向屏幕的上面移动一格，方向不变</li>
+        <li>TRA RIG：向屏幕的右侧移动一格，方向不变</li>
+        <li>TRA BOT：向屏幕的下面移动一格，方向不变</li>
+        <li>MOV LEF：方向转向屏幕左侧，并向屏幕的左侧移动一格</li>
+        <li>MOV TOP：方向转向屏幕上面，向屏幕的上面移动一格</li>
+        <li>MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格</li>
+        <li>MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格</li>
+        <li>GO 3：向当前方向前进三格</li>
+        <li>TRA TOP 2：向屏幕上方平移两格</li>
+        <li>MOV RIG 4：方向转向屏幕右侧，向屏幕的右侧移动四格</li>
+
+      </ol>
+    </div>
+</body>
+<script type="text/javascript">
+    
+    //将所有的变量都放在moveBox里面。
+    var moveBox={
+        box:getid("box") ,  //获取小块的id
+        invalue:getid("invalue") ,  //输入框的id
+        btndir:getid("excute"),     //获取按钮容器的id
+        left:90,     //左边距          
+        topl:90,     //上边距
+        direction:1,  //(0代表左，1代表up，2代表右，3代表down)
+        current:0,    //当前角度
+        message:getid("message"),    //获取信息id
+        hNum:getid("hanghao"),
+        refresh:getid("refresh"),
+    }
+
+    //获取id方法
+    function getid(id){
+      return document.getElementById(id);
+    }
+
+    //根据指令进行相应的旋转
+    function rotate(dir){
+
+        switch(dir){
+          case "left":
+            moveBox.current = (moveBox.current-90)%360;  //计算当前需要转的角度
+            draw();
+            moveBox.direction--;  //改变方向
+            break;
+
+          case "right":
+            moveBox.current = (moveBox.current+90)%360;  //计算当前需要转的角度
+            draw();
+            moveBox.direction++;  //改变方向
+            break;
+
+          case "back":
+          moveBox.current = (moveBox.current+180)%360;  //计算当前需要转的角度
+            draw();
+            moveBox.direction++;
+            moveBox.direction++;  //改变方向
+            break;
+
+        }
+    }
+
+
+    function go(dir,num){
+        //修正方向，使其在[0,4）之间
+        moveBox.direction=moveBox.direction % 4+(moveBox.direction % 4 < 0 ? 4 : 0);
+        for(var i=0;i<num;i++){
+            if(moveBox.left>0 && (moveBox.direction==0 && dir=="go" || dir=="traLeft")){
+              moveBox.left=moveBox.left-30;
+              draw();
+            }else if( moveBox.topl>0 && (moveBox.direction==1 && dir=="go" || dir=="traTop")){
+              moveBox.topl=moveBox.topl-30;
+              draw();
+            }else if( moveBox.left<270 && (moveBox.direction==2 && dir=="go" || dir=="traRight")){
+              moveBox.left=moveBox.left+30;
+              draw();
+            }else if(moveBox.topl<270 && (moveBox.direction==3 && dir=="go" || dir=="traDown")){
+              moveBox.topl=moveBox.topl+30;
+              draw();
+            } else {
+              moveBox.message.innerHTML="移动不能超出格子空间";
+            }
+        }
+    }
+
+
+    //事件绑定函数
+    function on(element,eventName,listener){
+
+        if (element.addEventListener){
+            element.addEventListener(eventName,listener,false);
+        }
+        else if (element.attachEvent){
+            element.attachEvent('on'+eventName,listener);
+        }
+        else
+            element['on'+eventName]=listener;
+    }
+
+    //进行事件绑定
+    on(btndir,"click",timeout);
+    
+    function timeout() {
+        var arr=moveBox.invalue.value.split("\n");
+        var len=arr.length;
+        var i = 0;  //命令条数
+        var pNum=moveBox.hNum.getElementsByTagName("p");
+        pNum[i].className="change";
+        var timer = setInterval(function(){
+          if(i<len){
+            excute(arr[i],i); //执行指定命令条
+            i++;
+            pNum[i].className="change";
+            pNum[i-1].className="";
+          } else {
+            clearInterval(timer);
+             pNum[i-1].className="";
+          }
+        }, 500)
+  }
+
+
+    function rotateNum(num){
+      var num1=Math.abs(num);
+      if(num>0){
+        for(var i=0;i<num1;i++){
+          rotate("right");
+        }
+      }else{
+        for(var i=0;i<num1;i++){
+          rotate("left");
+        }
+      }
+    }
+
+    function excute(arr,i){
+        var arr1=arr.split(" ");
+        var arrNum="";
+        var arr2="";
+        if(arr1.length>2){
+          arrNum=parseInt("0"+arr1.pop());
+        }
+        if(arrNum<1){ arrNum=1;}
+        arr2=arr1.join(" ").trim();
+        if (arr1[0]=="GO"){
+          arrNum=arr1[1];
+          arr2=arr1[0];
+        }
+        //修正方向，使其在[0,4）之间
+        moveBox.direction=moveBox.direction % 4+(moveBox.direction % 4 < 0 ? 4 : 0);
+        switch(arr2){
+          case "TUN LEF":
+            rotate("left");
+            break;
+          case "TUN RIG":
+            rotate("right");
+            break;
+          case "TUN BAC":
+            rotate("back");
+            break;
+          case "GO":
+            go("go",arrNum);
+            break;
+          case "excute":
+            var dir=moveBox.invalue.value.toLowerCase();
+            rotate(dir);
+            break;
+          case "TRA BOT":
+            go("traDown",arrNum);
+            break;
+          case "TRA RIG":
+            go("traRight",arrNum);
+            break;
+          case "TRA TOP":
+            go("traTop",arrNum);
+            break;
+          case "TRA LEF":
+            go("traLeft",arrNum);
+            break;
+          case "MOV BOT":
+            rotateNum((3-moveBox.direction));
+            go("traDown",arrNum);
+            break;
+          case "MOV RIG":
+            rotateNum((2-moveBox.direction));
+            go("traRight",arrNum);
+            break;
+          case "MOV TOP":
+            rotateNum((1-moveBox.direction));
+            go("traTop",arrNum);
+            break;
+          case "MOV LEF":
+            rotateNum((0-moveBox.direction));
+            go("traLeft",arrNum);
+            break;
+          default:
+            alert("输入命令有误,在第"+(i+1)+"行")
+        }
+    }
+
+    //重绘小块的样式
+    function draw(){
+      moveBox.box.style.cssText='transform:rotate('+ (moveBox.current) +'deg);';
+      moveBox.box.style.left=moveBox.left+"px";
+      moveBox.box.style.top=moveBox.topl+"px";
+      moveBox.message.innerHTML="";
+    }
+
+    draw(); //显示
+    //不能采用keyCode,因为如果一旦删除的话，数字也就不能跟着变化了
+    on(invalue,"keyup",function(){
+        var value = moveBox.invalue.value;
+        var rows = value.split("\n");
+        var arr = [];
+        var top = moveBox.invalue.scrollTop;
+        for (var i = 0; i < rows.length; i++) {
+          arr.push("<p >" + (i + 1) + "</p>");
+        }
+        moveBox.hNum.innerHTML = arr.join("");
+        moveBox.hNum.scrollTop = top; //使得两个块之间是等高的
+    });
+
+    on(refresh,"click",function(){
+       moveBox.hNum.innerHTML="";
+       moveBox.invalue.value="";
+    });
+
+</script>
+</html>
