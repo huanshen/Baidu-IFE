@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>响应式布局</title>
+    <meta charset="utf-8">
+    <style>
+        html,body{margin: 0px;padding: 0px;}
+        .grid-container{
+            width: 100%; 
+        }
+        .row:before, 
+        .row:after {
+            content:"";
+            display: table ;
+            clear:both;
+        }
+        .row{
+            padding-left: 20px;
+        }
+        [class*='col-'] {
+            float: left; 
+            height: 50px;
+            width: 16.66%; 
+            background-color: #eee;
+            outline: 1px solid #999;
+            margin: 20px 20px 0  0px;
+        }
+@media (min-width: 769px){
+        .col-md-1{ width: calc(8.33% - 20px);
+        }
+        .col-md-2{ width: calc(16.66% - 20px);
+        }
+        .col-md-3{ width: calc(25% - 20px);
+        }
+        .col-md-4{ width: calc(33.33% - 20px);
+        }
+        .col-md-6{ width: calc(50% - 20px); 
+        }
+        .col-md-8{ width: calc(66.66% - 20px); 
+        }
+        .col-md-12{ width: calc(100% - 20px); 
+        }
+}
+ @media (max-width: 768px){
+         .col-sm-2{
+            width:calc(16.66% - 20px);
+         }
+         .col-sm-3{
+            width:calc(25% - 20px);
+         }
+         .col-sm-6{
+            width:calc(50% - 20px);
+         }
+         .col-sm-8{
+            width:calc(66.66% - 20px);
+         }
+         .col-sm-12{
+            width:calc(100% - 20px);
+         }
+}
+
+    </style>
+</head>
+<body>
+   <div class="grid-container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6"></div> 
+            <div class="col-md-4 col-sm-6"></div> 
+            <div class="col-md-4 col-sm-12"></div> 
+        </div> 
+        <div class="row">
+            <div class="col-md-3 col-sm-3"></div> 
+            <div class="col-md-6 col-sm-6"></div> 
+            <div class="col-md-3 col-sm-3"></div> 
+        </div> 
+        <div class="row">
+            <div class="col-md-1 col-sm-2"></div> 
+            <div class="col-md-1 col-sm-2"></div>
+            <div class="col-md-2 col-sm-8"></div>
+            <div class="col-md-2 col-sm-3"></div>
+            <div class="col-md-6 col-sm-3"></div> 
+        </div> 
+    </div>
+</body>
+</html>
