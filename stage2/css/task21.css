@@ -1,0 +1,43 @@
+.hidden{
+	visibility:hidden;
+}
+#mybt{
+	margin: 20px;
+	padding: 10px;
+}
+#tag-count{
+	margin: 20px;
+	padding: 10px;
+}
+#tag-count span{
+	display: inline-block;
+	padding:5px 5px;
+	text-align: center;
+	margin: 10px 5px;
+	position: relative;
+	background: #3c6;
+}
+#favor-count span:hover,#tag-count span:hover{
+	cursor: pointer;
+	background: red;
+}
+#favor-count span:hover:before,#tag-count span:hover:before{
+	content: "点击删除";
+}
+#favor-count span{
+	display: inline-block;
+	padding:5px 5px;
+	text-align: center;
+	margin: 10px 5px;
+	position: relative;
+	background: #4f9;
+}
+#input-text{
+	width: 200px;
+	height: 100px;
+	margin: 10px 0;
+}
+#favor-count{
+	margin: 20px;
+	padding: 10px;
+}
