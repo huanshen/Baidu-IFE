@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>瀑布流 by huansky</title>
+    <link href="newwaterfall.css" rel="stylesheet">
+    <script src=newwaterfall.js></script>
+</head>
+<body>
+    <h1>瀑布流 by huansky</h1>
+    <h2><a href="http://1.huanssky.applinzi.com/ablum/newwaterfall.html">点击体验</a></h2>
+    <div id="container">
+       <img src="img/1.png">
+       <img src="img/2.png">
+       <img src="img/3.png">
+       <img src="img/4.png">
+       <img src="img/5.png">
+       <img src="img/6.png">
+    </div>
+    <div id="zhe" ></div>
+    <div id="btn" style="text-align: center;margin: 40px 0 40px; 0">
+        <input type="button" id="add" value="添加图片">   <input type="button" id="add500" value="图片宽度400">
+        <input type="button" id="add700" value="图片宽度700">
+    </div>
+</body>
+    <script>
+    //newwaterfall.js
+        var waterfa = waterfall({
+            wrap: '#container',
+            colsWidth: 300
+        });
+
+        document.querySelector('#btn').addEventListener('click', function() {
+          var e=event||window.event;
+          var target=e.target||e.srcElement;
+          switch(target.id){
+            case "add":
+              waterfa.load('json.php', function(data) {
+
+                  for (var key in data) {
+                      data[key].src = data[key].src;
+                  }
+
+                  return {
+                      type: 'json',
+                      data: data
+                  };
+              });
+              break;
+            case "add500":
+              waterfa = waterfall({
+                wrap: '#container',
+                colsWidth: 400
+              });
+              break;
+
+            case "add700":
+              waterfa = waterfall({
+                wrap: '#container',
+                colsWidth: 700
+              });
+              break;
+        }
+      });
+
+
+    </script>
+</html>
