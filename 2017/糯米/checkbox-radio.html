@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义checkbox,radio样式</title>
+    <style>
+        /*伪类*/
+        .hidden input{
+            visibility: hidden;
+        }
+        .radio span::before, .checkbox span::before{
+            content: "";
+            border: 1px solid #ccc;
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            position: relative;
+            left: 19px;
+        }
+        .radio span::before{
+            border-radius: 50%;
+        }
+        .checkbox label{
+            left: -15px;
+            position: relative;
+        }
+        .checkbox span::before{
+            content: "";
+            left: -16px;
+        }
+        #checkBox:checked ~ span::before{
+            content: "";
+            border: 1px solid red;
+        }
+        #checkBox ~ label::before, .radios + label::before{
+            content: "";
+            display: inline-block;
+            position: relative;
+            width: 6px;
+            height: 6px;
+            left: -17px;
+            top: -3px;
+            font-size: 12px;
+        }
+        #checkBox:checked ~ label::before{
+            content: "\2714";
+            color: red;
+        }
+        .radios + label::before{
+            content: "";
+            left: -17px;
+            border: 1px solid transparent;
+        }
+        .radios:checked + label::before{
+            content: "";
+            border-radius: 50%;
+            background: blue;
+        }
+        .checkbox1 input,.radio1 input{
+            margin: 0;
+            visibility: hidden;
+        }
+
+        /*雪碧图*/
+        .checkbox1 span,.radio1 span{
+            display: inline-block;
+            position:relative;
+            left: -12px;
+            width: 16px;
+            height: 16px;
+            background:transparent url('img/bg.png') no-repeat;
+        }
+        .checkBox_sprit+span{
+            background-position:-24px -32px;
+        }
+        .radioBox_sprit+span{
+            background-position: -24px -10px;
+        }
+        .checkBox_sprit:checked+span{
+            background-position: -58px -32px;
+        }
+        .radioBox_sprit:checked+span{
+            background-position: -59px -10px;
+        }
+    </style>
+</head>
+<body>
+	<div id='wrap'>
+		<h2>伪元素实现：</h2>
+		<div class="checkbox hidden">
+			<input type="checkbox" name="" id="checkBox" class="checkBox"><span></span>
+			<label for="checkBox">checkBox checkBox</label>
+		</div>
+		<div class="radio hidden">
+			<span><input type="radio" name="sex"  id="radioBox" class="radios">
+			<label for="radioBox">radioBox checkBox</label></span>
+			<span><input type="radio" name="sex"  id="radioBox1" class="radios">
+			<label for="radioBox1">radioBox1</label></span>
+		</div>
+		<h2>雪碧图实现：</h2>
+		<div class="checkbox1">
+			<input type="checkbox" name="" id="checkBox_sprit" class="checkBox_sprit">
+            <span></span>
+			<label for="checkBox_sprit">checkBox_sprit</label>
+		</div>
+		<div class="radio1">
+			<input type="radio" name="sex1"  id="radioBox_sprit" class=" radioBox_sprit">
+            <span></span>
+			<label for="radioBox_sprit">radioBox_sprit</label>
+			<input type="radio" name="sex1"  id="radioBox1_sprit" class=" radioBox_sprit">
+            <span></span>
+            <label for="radioBox1_sprit">radioBox1_sprit</label>
+		</div>
+	</div>
+</body>
+</html>
