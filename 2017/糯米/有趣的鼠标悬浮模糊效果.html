@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+    <title>有趣的鼠标悬浮模糊效果</title>
+    <meta charset="utf-8"/>
+    <style>
+        #bg{
+            width: 600px;
+            height: 400px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #bg img{
+            width: 600px;
+            height: 400px;
+            filter: blur(3px);
+            transition: filter 1.5s;
+        }
+        #font{
+            position: absolute;
+            left: 50%;
+            top: 52%;
+            transform: translate(-50%, -50%);
+            width:300px;
+            height: 200px;
+            animation: move1 5s linear;
+            visibility: hidden;
+
+        }
+        #font span{
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            width:300px;
+            height: 200px;
+            animation: move 5s infinite linear;
+            background-image: -webkit-linear-gradient(left, blue, red 25%, blue 50%, red 75%, blue 100%);
+            color： transparent;
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            background-size: 200% 100%;
+            visibility: hidden;
+        }
+        #font::after,#font::before{
+            content: " ";
+            border:  3px solid red;
+            position: absolute;
+            display: block;
+            width: 300px;
+            height: 200px;
+            transition: all 3s ease-in;
+            top:0;
+            visibility: hidden;
+        }
+
+        #font::after{
+            border: 3px solid blue;
+            top: 0%;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            width: 0;
+            left: 50%;
+        }
+        #font::before{
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            height: 0;
+            top:50%;
+        }
+        #bg:hover #font::before{
+            height: 100%;
+            top: 0;
+            visibility: visible;
+        }
+        #bg:hover img{
+            filter: blur(0);
+        }
+        #bg:hover #font::after{
+            width: 100%;
+            left: 0;
+            visibility: visible;
+        }
+        #bg:hover span{
+            visibility: visible;
+        }
+        @keyframes move {
+            0%{
+                background-position: 0 0;
+            }
+            100%{
+                background-position: -100% 0;
+            }
+        }
+
+        #bg:hover #font{
+            top: 50%;
+        }
+        @keyframes move1 {
+            0%{
+                top: 52%;
+            }
+            100%{
+                top: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="bg">
+        <img src="img/qingchun.jpg" />
+        <div id="font" class="slide-up">
+                <span>hello! 你好</span>
+        </div>
+    </div>
+
+</body>
+</html>
