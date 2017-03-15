@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<body>
+</body>
+<script>
+
+function Observer(obj){
+    this.data = obj;
+    this.walk(obj);
+}
+
+var p = Observer.prototype;
+
+p.walk = function (obj){
+    if (Object.prototype.toString.call(obj ) != '[object Object]'){
+        return ;
+    }
+    for(var key in obj){
+        let val = obj[key];
+        if(obj.hasOwnProperty(key)){
+            if(Object.prototype.toString.call(obj[key] ) == '[object Object]' ){
+                new Observer(val);
+            }
+            this.convert(key, val);
+        }
+    }
+}
+
+p.convert = function (key, val){
+    Object.defineProperty(this.data, key,{
+        set: function (newVal){
+            if(this[key] != newVal){
+                if(Object.prototype.toString.call(newVal ) == '[object Object]' ){
+                    new Observer(newVal);
+                }
+                console.log("你设置了"+ key + ", 新值是"+ newVal)
+                val = newVal;
+            }
+
+        },
+        get: function (){
+            console.log("你访问了"+ key)
+            return val;
+        }
+    })
+}
+
+var data = {
+    a: 'b'
+}
+
+var p = new Observer(data);
+p.data.a = 3;
+p.data.a={b:1}
+p.data.a.b;
+p.data.a.b=2;
+
+</script>
+</html>
