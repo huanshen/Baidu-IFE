@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<body>
+</body>
+<script>
+
+/**
+观察者模式
+**/
+function Watch(){
+    // 用来存储回调函数的，根据不同的类型来存储
+    this.obj = {};
+    //  注册函数，需要给定注册类型和回调函数
+    this.on = function(type, fn){
+        if(! (type in this.obj)){
+            this.obj[type]=[fn];
+        }else{
+            this.obj[type].push(fn);
+        }
+    };
+    // 发布订阅，将符合类型的回调全部调用，有三个参数，也可以只调用一次
+    this.fire = function(type, args, times){
+        if(type in this.obj){
+            let i = 0;
+            while(this.obj[type].length-1>=i){
+                this.obj[type][i](args);
+                i++;
+            }
+            if( times == 'once'){
+                this.obj[type] = [];
+            }
+        }
+    };
+    // 取消订阅，清空某个指定的类型
+    this.off = function(type){
+        if(type in this.obj){
+            this.obj[type] = [];
+        }
+    };
+}
+
+var wa = new Watch();
+wa.on("huo", function(){
+    console.log("huo");
+})
+wa.on("huo", function(){
+    console.log("huo2");
+})
+wa.on("huo1", function(){
+    console.log("huo1");
+})
+wa.fire("huo");
+wa.fire("huo1");
+wa.fire("huo",'once');
+wa.fire("huo");
+wa.fire("huo1");
+wa.off('huo1');
+wa.fire('huo1');
+
+
+/****
+  我把观察者模式写到构造函数里面去了
+  突然想到我也可以采用继承的形式，这样就不用都写到里面去，这样代码也会更加清晰
+**/
+function Observer(obj){
+    this.data = obj;
+    this.walk(obj);
+    this.obj = {};
+}
+Observer.prototype.on = function(type, fn){
+    if(! (type in this.obj)){
+        this.obj[type]=[fn];
+    }else{
+        this.obj[type].push(fn);
+    }
+};
+
+Observer.prototype.fire = function(type, args, times){
+    if(type in this.obj){
+        let i = 0;
+        while(this.obj[type].length-1>=i){
+            this.obj[type][i](args);
+            i++;
+        }
+        if( times == 'once'){
+            this.obj[type] = [];
+        }
+    }
+};
+
+Observer.prototype.off = function(type){
+    if(type in this.obj){
+        this.obj[type] = [];
+    }
+};
+
+var p = Observer.prototype;
+// 目前只只支持对对象进行观察
+p.walk = function (obj){
+    if (Object.prototype.toString.call(obj ) != '[object Object]'){
+        return ;
+    }
+    for(var key in obj){
+        let val = obj[key];
+        if(obj.hasOwnProperty(key)){
+            // 如果某个属性值为对象的话，还要进一步new
+            if(Object.prototype.toString.call(obj[key] ) == '[object Object]' ){
+                new Observer(val);
+            }
+            // 不是对象的话，去修改器访问属性
+            this.convert(key, val);
+        }
+    }
+}
+
+p.convert = function (key, val){
+    var self = this;
+    Object.defineProperty(this.data, key,{
+        set: function (newVal){
+            if(this[key] != newVal){
+                // 如果给定的新值是对象的话，需要new, 这样我们访问新值里的属性也能够被观察到
+                if(Object.prototype.toString.call(newVal ) == '[object Object]' ){
+                    new Observer(newVal);
+                }
+                console.log("你设置了"+ key + ", 新值是"+ newVal);
+                // 发布订阅，只要有订阅，后面就会有用
+                self.fire(key+'',newVal);
+                val = newVal;
+            }
+
+        },
+        get: function (){
+            console.log("你访问了"+ key)
+            return val;
+        }
+    })
+}
+
+var data = {
+    a: 'b',
+    age: 2,
+}
+
+var p = new Observer(data);
+console.log(p);
+p.on('age', function(age){
+    console.log(`我的年纪变了，现在已经是：${age}岁了`);
+});
+p.data.age = 3;
+p.data.age={b:1}
+p.data.age.b;
+p.data.age.b=2;
+
+</script>
+</html>
